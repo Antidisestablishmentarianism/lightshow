@@ -62,7 +62,7 @@ while True:
 		setcolor('top-left', [y, y, y])
 		sleep(0.01)
 
-for key, value in rooms.items():
+for key, value in leds.items():
 	for i in value:
 		i.stop()
 
