@@ -1,21 +1,26 @@
 #!/usr/bin/sudo / usr/bin/python
 
 import RPi.GPIO as GPIO
+import random
 from time import sleep
 
+# Use board pin numbering
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
+# Start a new dictionary with desired LED names
 leds = {'floor':[], 'top-left':[]}
 
+# TAke name of led and list of pins for RGB
 def setupled(name, pins):
 	for i in range(0, 3):
 		GPIO.setup(pins[i], GPIO.OUT)
 		leds[name].append(GPIO.PWM(pins[i], 100))
 
-setupled('floor', [11, 13, 15])
-setupled('top-left', [12, 16, 18])
+setupled('floor', [3, 5, 7])
+setupled('top-left', [8, 10, 11])
 
+# Start all PWMs
 for key, value in leds.items():
 	for i in value:
 		i.start(0)
@@ -35,33 +40,26 @@ def setcolor(led, color):
 	print('Setting {} to {}'.format(led, color))
 
 # Start program here
-while True:
-	setcolor('floor', RED)
-	sleep(1)
-	setcolor('top-left', GREEN)
-	sleep(1)
-	setcolor('floor', BLUE)
-	sleep(1)
-	setcolor('top-left', YELLOW)
-	sleep(1)
-	setcolor('floor', PURPLE)
-	sleep(1)
-	setcolor('top-left', CYAN)
-	sleep(1)
-	setcolor('floor', WHITE)
-	sleep(1)
-	setcolor('top-left', BLACK)
-	sleep(1)
-	
-	for i in xrange(0, 256):
-		setcolor('floor', [i, i, i])
-		sleep(0.01)
-	
-	for x in xrange(0, 256):
-		y = 255 - x
-		setcolor('top-left', [y, y, y])
-		sleep(0.01)
+colors = []
+bools = []
+for i in xrange(0, 6):
+	colors.append(random.randrange(0, 256))
+	bools.append(bool(random.getrandbits(1)))
 
+while True:
+	for i in xrange(0, 6):
+		if (colors[i] < 1 or colors[i] > 254):
+			bools[i] = not bools[i]
+		if (bools[i]):
+			colors[i] = colors[i] + 1
+		elif (not bools[i]):
+			colors[i] = colors[i] - 1
+
+	setcolor('floor', colors[0:3])
+	setcolor('top-left', colors[3:6])
+	sleep(0.001)
+
+# Stop all PWMs
 for key, value in leds.items():
 	for i in value:
 		i.stop()
