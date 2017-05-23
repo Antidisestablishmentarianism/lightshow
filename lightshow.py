@@ -11,7 +11,7 @@ GPIO.setwarnings(False)
 # Start a new dictionary with desired LED names
 leds = {'floor':[], 'top-left':[]}
 
-# TAke name of led and list of pins for RGB
+# Take name of led and list of pins for RGB
 def setupled(name, pins):
 	for i in range(0, 3):
 		GPIO.setup(pins[i], GPIO.OUT)
@@ -39,25 +39,60 @@ def setcolor(led, color):
 		leds[led][i].ChangeDutyCycle((255 - color[i]) * 100 / 255)
 	print('Setting {} to {}'.format(led, color))
 
+def phase():
+        colors = []
+        bools = []
+        for i in xrange(0, 6):
+                colors.append(random.randrange(0, 256))
+                bools.append(bool(random.getrandbits(1)))
+
+        try:
+                while True:
+                        for i in xrange(0, 6):
+                                if (colors[i] < 1 or colors[i] > 254):
+                                	bools[i] = not bools[i]
+                                if (bools[i]):
+                                	colors[i] = colors[i] + 1
+                                elif (not bools[i]):
+                                	colors[i] = colors[i] - 1
+		
+                        setcolor('floor', colors[0:3])
+                        setcolor('top-left', colors[3:6])
+                        sleep(0.005)
+        except KeyboardInterrupt:
+                pass
+
+def cyclecolors():
+        try:
+                while True:
+                        setcolor('floor', RED)
+                	sleep(1)
+                	setcolor('floor', GREEN)
+                	sleep(1)
+                	setcolor('floor', BLUE)
+                	sleep(1)
+                	setcolor('floor', YELLOW)
+                	sleep(1)
+                	setcolor('floor', PURPLE)
+                	sleep(1)
+                	setcolor('floor', CYAN)
+                	sleep(1)
+                	setcolor('floor', WHITE)
+                	sleep(1)
+                	setcolor('floor', BLACK)
+                	sleep(1)
+        except KeyboardInterrupt:
+                pass
+
 # Start program here
-colors = []
-bools = []
-for i in xrange(0, 6):
-	colors.append(random.randrange(0, 256))
-	bools.append(bool(random.getrandbits(1)))
-
-while True:
-	for i in xrange(0, 6):
-		if (colors[i] < 1 or colors[i] > 254):
-			bools[i] = not bools[i]
-		if (bools[i]):
-			colors[i] = colors[i] + 1
-		elif (not bools[i]):
-			colors[i] = colors[i] - 1
-
-	setcolor('floor', colors[0:3])
-	setcolor('top-left', colors[3:6])
-	sleep(0.001)
+command = input('> ')
+try:
+	while (not (command == 'exit')):
+		exec(command)
+	
+		command = input('> ')
+except KeyboardInterrupt:
+	pass
 
 # Stop all PWMs
 for key, value in leds.items():
