@@ -146,39 +146,25 @@ def epilepsy():
 	try:
 		while True:
 			if bool(random.getrandbits(1)):
-				setcolor('1', WHITE)
-			else
-				setcolor('1', BLACK)
+				setcolor('1', [random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256)])
 
 			if bool(random.getrandbits(1)):
-				setcolor('2', WHITE)
-			else
-				setcolor('2', BLACK)
+				setcolor('2', [random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256)])
 
 			if bool(random.getrandbits(1)):
-				setcolor('3', WHITE)
-			else
-				setcolor('3', BLACK)
+				setcolor('3', [random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256)])
 
 			if bool(random.getrandbits(1)):
-				setcolor('4A', WHITE)
-			else
-				setcolor('4A', BLACK)
+				setcolor('4A', [random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256)])
 
 			if bool(random.getrandbits(1)):
-				setcolor('4B', WHITE)
-			else
-				setcolor('4B', BLACK)
+				setcolor('4B', [random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256)])
 
 			if bool(random.getrandbits(1)):
-				setcolor('5A', WHITE)
-			else
-				setcolor('5A', BLACK)
+				setcolor('5A', [random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256)])
 
 			if bool(random.getrandbits(1)):
-				setcolor('5B', WHITE)
-			else
-				setcolor('5B', BLACK)
+				setcolor('5B', [random.randrange(0, 256), random.randrange(0, 256), random.randrange(0, 256)])
 
 			sleep(0.01)
 	except KeyboardInterrupt:
